@@ -14,3 +14,15 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function() {
+  setInterval(function(){ 
+    var ajaxOpts = {
+          type: "get",
+          url: "/",
+          dataType: "script",
+          data: "status=reload"
+      };
+    $.ajax(ajaxOpts);
+  }, 1000*60*10 );
+});

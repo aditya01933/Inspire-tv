@@ -1,7 +1,11 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'csv'    
+
+# activerecord-import gem is sufficient for files with
+# few million lines. In case of lines more than that,
+# CSV can pe processed in batches by breaking into chunks.
+
+Quote.transaction do
+  quotes = CSV.read("#{Rails.root}/db/quotes.csv", :col_sep => ";")
+  columns = [:body, :author, :genre]
+  Quote.import columns, quotes, validate: false
+end
